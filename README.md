@@ -1,8 +1,17 @@
 # FreightBot AI
 
-FreightBot AI is a prototype logistics customer-support chatbot built for the BUS4005 Assessment 2 project. It demonstrates how AI can be used to automate common freight-service enquiries such as shipment tracking, freight quote requests, pickup booking, delivery-delay support, and escalation guidance.
+FreightBot AI is a prototype logistics customer-support chatbot that demonstrates how AI can automate common freight-service enquiries such as shipment tracking, freight quote requests, pickup booking, delivery-delay support, and escalation guidance.
 
-The project combines AI-based intent classification with rule-based business workflow logic. A trained TensorFlow/Keras model identifies what the user is asking, and the application then responds using structured follow-up prompts and simulated freight-support data.
+The project combines AI-based intent classification with rule-based business workflow logic. A trained TensorFlow/Keras model identifies what the user is asking, and the application responds using structured follow-up prompts and simulated freight-support data.
+
+## Overview
+
+FreightBot was developed as a workflow-focused chatbot rather than a general conversational assistant. It is designed to support first-line logistics customer service by:
+
+- identifying the user's request type
+- collecting missing shipment or booking details
+- returning a structured response
+- escalating where automation should stop
 
 ## Features
 
@@ -24,7 +33,7 @@ The project combines AI-based intent classification with rule-based business wor
 - JSON
 - Pickle
 
-## Project Files
+## Project Structure
 
 - [chatgui.py](/home/sir-sang/Documents/Chatbot-using-Python/chatgui.py): chatbot GUI and runtime conversation logic
 - [train_chatbot.py](/home/sir-sang/Documents/Chatbot-using-Python/train_chatbot.py): model training script
@@ -42,7 +51,7 @@ cd /home/sir-sang/Documents/Chatbot-using-Python
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
-pip install tensorflow nltk numpy
+pip install -r requirements.txt
 ```
 
 ### Option 2: Conda environment
@@ -55,9 +64,21 @@ conda env create -f environment.yml
 conda activate freightbot-ai
 ```
 
+### Install with pip only
+
+```bash
+pip install -r requirements.txt
+```
+
+If `tkinter` is missing on Linux, install it separately using your system package manager, for example:
+
+```bash
+sudo apt install python3-tk
+```
+
 ## Train the Model
 
-If you update `intents.json`, retrain the chatbot before running the GUI:
+This repository does not store generated model artifacts in Git. Train the chatbot before first run, and retrain any time you update `intents.json`:
 
 ```bash
 python3 train_chatbot.py
@@ -76,6 +97,8 @@ python3 chatgui.py
 ```
 
 The GUI opens a logistics support console where you can test the prototype.
+
+If `chatbot_model.keras` is missing, the GUI will not start until training has been run successfully.
 
 ## Sample Prompts
 
@@ -104,12 +127,25 @@ Rule-based logic is then used to:
 - estimate quote values
 - return booking references and escalation guidance
 
+This means the system uses AI for language understanding and uses deterministic workflow logic for business responses.
+
 ## Limitations
 
 - Uses simulated freight data rather than live business systems
 - Does not authenticate real users
 - Supports common support scenarios only
 - Quote outputs are prototype estimates, not production prices
+
+## Repository Policy
+
+Generated runtime artifacts are intentionally ignored:
+
+- `chatbot_model.keras`
+- `chatbot_model.h5`
+- `words.pkl`
+- `classes.pkl`
+
+This keeps the repository focused on source code, configuration, and assignment materials while allowing the model to be rebuilt locally.
 
 ## Assignment Context
 

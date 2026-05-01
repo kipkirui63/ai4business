@@ -1,0 +1,11 @@
+name: freightbot-ai
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - tk
+  - pip:
+      - numpy
+      - nltk
+      - tensorflow
