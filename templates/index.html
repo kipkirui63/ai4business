@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreightBot AI</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+    <main class="shell">
+        <section class="panel">
+            <header class="hero">
+                <div>
+                    <p class="eyebrow">Freight Support</p>
+                    <h1>FreightBot AI</h1>
+                    <p class="subtitle">Track shipments, request quotes, report delays, and manage pickup requests from one browser chat.</p>
+                </div>
+                <div class="status-card">
+                    <span class="status-dot"></span>
+                    <span>Web service ready</span>
+                </div>
+            </header>
+
+            <section class="content">
+                <aside class="sidebar">
+                    <h2>Quick Actions</h2>
+                    <button class="prompt" data-prompt="Track my shipment">Track shipment</button>
+                    <button class="prompt" data-prompt="TRK12345">Use sample tracking number</button>
+                    <button class="prompt" data-prompt="I need a freight quote">Get a quote</button>
+                    <button class="prompt" data-prompt="Book a pickup">Book pickup</button>
+                    <button class="prompt" data-prompt="My shipment is delayed">Report delay</button>
+                </aside>
+
+                <section class="chat-panel">
+                    <div id="chat-log" class="chat-log"></div>
+
+                    <form id="chat-form" class="composer">
+                        <textarea id="message-input" name="message" rows="3" placeholder="Type your message"></textarea>
+                        <div class="composer-actions">
+                            <button type="button" id="reset-button" class="ghost">Reset</button>
+                            <button type="submit" class="primary">Send</button>
+                        </div>
+                    </form>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
