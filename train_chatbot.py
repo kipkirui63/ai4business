@@ -1,5 +1,3 @@
-#https://github.com/tridibsamanta/Chatbot-using-Python
-
 import json
 import pickle
 import random
