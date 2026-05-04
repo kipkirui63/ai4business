@@ -1,3 +1,6 @@
 numpy
 nltk
 tensorflow
+fastapi
+uvicorn[standard]
+jinja2
