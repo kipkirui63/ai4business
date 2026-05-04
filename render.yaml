@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ai4business
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt && python train_chatbot.py
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
