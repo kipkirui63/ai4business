@@ -1,159 +1,108 @@
 # FreightBot AI
 
-FreightBot AI is a prototype logistics customer-support chatbot that demonstrates how AI can automate common freight-service enquiries such as shipment tracking, freight quote requests, pickup booking, delivery-delay support, and escalation guidance.
+FastAPI-based logistics chatbot for:
 
-The project combines AI-based intent classification with rule-based business workflow logic. A trained TensorFlow/Keras model identifies what the user is asking, and the application responds using structured follow-up prompts and simulated freight-support data.
+- shipment tracking
+- freight quotes
+- pickup booking
+- delay support
+- delivery changes
 
-## Overview
+## Files
 
-FreightBot was developed as a workflow-focused chatbot rather than a general conversational assistant. It is designed to support first-line logistics customer service by:
+- `main.py` - FastAPI app
+- `chatbot_core.py` - chatbot logic
+- `train_chatbot.py` - model training script
+- `intents.json` - intents and responses
+- `templates/` - HTML UI
+- `static/` - CSS and JavaScript
+- `requirements.txt` - Python dependencies
+- `render.yaml` - Render deployment config
 
-- identifying the user's request type
-- collecting missing shipment or booking details
-- returning a structured response
-- escalating where automation should stop
+## Run Locally
 
-## Features
-
-- Shipment tracking with sample tracking numbers
-- Freight quote estimation
-- Pickup booking flow
-- Delivery-delay support
-- Escalation guidance for human support
-- Desktop GUI built with Tkinter
-- Intent-classification model trained from freight-specific examples
-
-## Tech Stack
-
-- Python
-- TensorFlow / Keras
-- NLTK
-- NumPy
-- Tkinter
-- JSON
-- Pickle
-
-## Project Structure
-
-- [chatgui.py](/home/sir-sang/Documents/Chatbot-using-Python/chatgui.py): chatbot GUI and runtime conversation logic
-- [train_chatbot.py](/home/sir-sang/Documents/Chatbot-using-Python/train_chatbot.py): model training script
-- [intents.json](/home/sir-sang/Documents/Chatbot-using-Python/intents.json): supported freight-support intents and training phrases
-- `chatbot_model.keras`: trained model used at runtime
-- `words.pkl` and `classes.pkl`: saved vocabulary and labels
-- [materials](/home/sir-sang/Documents/Chatbot-using-Python/materials): assignment report, flow, and reflection materials
-
-## Setup
-
-### Option 1: Python virtual environment
+### 1. Create and activate a virtual environment
 
 ```bash
-cd /home/sir-sang/Documents/Chatbot-using-Python
 python3 -m venv venv
 source venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### Option 2: Conda environment
+### 3. Train the model
 
-Use the included `environment.yml`:
-
-```bash
-cd /home/sir-sang/Documents/Chatbot-using-Python
-conda env create -f environment.yml
-conda activate freightbot-ai
-```
-
-### Install with pip only
-
-```bash
-pip install -r requirements.txt
-```
-
-If `tkinter` is missing on Linux, install it separately using your system package manager, for example:
-
-```bash
-sudo apt install python3-tk
-```
-
-## Train the Model
-
-This repository does not store generated model artifacts in Git. Train the chatbot before first run, and retrain any time you update `intents.json`:
+Run this before the first start, or any time you change `intents.json`.
 
 ```bash
 python3 train_chatbot.py
 ```
 
-This will regenerate:
+This creates:
 
 - `chatbot_model.keras`
 - `words.pkl`
 - `classes.pkl`
 
-## Run the Chatbot
+### 4. Start the app
 
 ```bash
-python3 chatgui.py
+uvicorn main:app --reload
 ```
 
-The GUI opens a logistics support console where you can test the prototype.
+### 5. Open in browser
 
-If `chatbot_model.keras` is missing, the GUI will not start until training has been run successfully.
+Go to:
 
-## Sample Prompts
+```text
+http://127.0.0.1:8000
+```
 
-Try these in the chatbot:
+## API Endpoints
+
+- `GET /` - web UI
+- `GET /health` - health check
+- `POST /chat` - send a message
+- `POST /reset` - clear chat session
+
+Example `POST /chat` body:
+
+```json
+{
+  "message": "Track my shipment",
+  "session_id": null
+}
+```
+
+## Sample Messages
 
 - `track my shipment`
 - `TRK12345`
 - `i need a freight quote`
 - `120 kg 2 pallets from Dandenong to Geelong`
 - `book a pickup`
-- `Pick up from Campbellfield tomorrow for Alex, 3 cartons`
 - `my shipment is delayed`
-- `TRK67890`
 
-## How AI Is Used
+## Deploy to Render
 
-AI is used in the intent-classification layer:
+Create a `Web Service` with:
 
-- `train_chatbot.py` trains a TensorFlow/Keras model on the examples in `intents.json`
-- `chatgui.py` loads that model and predicts the likely intent of each user message
+- `Language`: `Python 3`
+- `Branch`: `main`
+- `Root Directory`: leave blank
+- `Build Command`: `pip install -r requirements.txt && python train_chatbot.py`
+- `Start Command`: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+- `Health Check Path`: `/health`
+- `Environment Variable`: `PYTHON_VERSION=3.11.11`
 
-Rule-based logic is then used to:
+You can also use the included `render.yaml`.
 
-- manage follow-up conversation state
-- look up sample shipment data
-- estimate quote values
-- return booking references and escalation guidance
+## Notes
 
-This means the system uses AI for language understanding and uses deterministic workflow logic for business responses.
-
-## Limitations
-
-- Uses simulated freight data rather than live business systems
-- Does not authenticate real users
-- Supports common support scenarios only
-- Quote outputs are prototype estimates, not production prices
-
-## Repository Policy
-
-Generated runtime artifacts are intentionally ignored:
-
-- `chatbot_model.keras`
-- `chatbot_model.h5`
-- `words.pkl`
-- `classes.pkl`
-
-This keeps the repository focused on source code, configuration, and assignment materials while allowing the model to be rebuilt locally.
-
-## Assignment Context
-
-This repository was adapted into a freight/logistics use case for:
-
-- `BUS4005: AI for Business`
-- `Assessment 2: AI conversational agent solution design – Development and demonstration`
-
-Supporting assignment deliverables are stored in the `materials/` folder.
-# ai4business
-# ai4business
+- If `chatbot_model.keras`, `words.pkl`, or `classes.pkl` are missing, the app will not start.
+- The current app uses demo freight data, not live business systems.
